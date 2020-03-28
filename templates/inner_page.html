@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div>这是内嵌页面</div>
+<div>ajax请求响应数据</div>
+<pre id="inner_ajax_result"></pre>
+
+<script>
+
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function (ev) {
+        if (xhr.readyState === 4) {
+            console.log("this.status: " + this.status);
+            var headers = "====>\nAll response headers: \n " + xhr.getAllResponseHeaders() + "\n";
+            headers += "====>\ntest-expose-header: " + xhr.getResponseHeader("test-expose-header");
+            document.getElementById("inner_ajax_result").innerText = "Sta" +
+                "" +
+                "" +
+                "tus: "+ xhr.status
+                                                                        +"\nResponse text: "+ xhr.responseText
+                                                                        +"\nHeaders: " + headers;
+        }
+    };
+
+    var url = typeof myApp === "undefined" ? "/test_ajax/" : myApp.host + "test_ajax/";
+    xhr.open("POST", url);
+
+    xhr.setRequestHeader("Accept", "*/*");
+    xhr.setRequestHeader("test-expose-header", "request-test-expose-header");
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.send(JSON.stringify({'data': "Ajax request from inner page."}));
+
+</script>
+</body>
+</html>

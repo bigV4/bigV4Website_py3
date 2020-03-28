@@ -1,0 +1,149 @@
+body{
+    background-color: #e9e9e9;
+}
+
+div{
+    background-color: white;
+}
+
+div.page-title{
+    width: 100%;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+div#hasCoreJs{
+    text-align: center;
+    font-size: 1.2em;
+}
+div#hasCoreJs.has-core{
+    color: green;
+}
+div#hasCoreJs.no-core{
+    color: red;
+}
+div#hasCoreJs.not-support{
+    color: orange;
+}
+
+.test-header{
+    border: 0.2em solid #5cb85c!important;
+}
+
+div.test-block{
+    border: 1px solid #9acfea;
+    margin: 0.3em 0.3em 1em 0.3em;
+}
+.test-block > .block-title{
+    height: 2em;
+    line-height: 2em;
+    text-align: center;
+    width: 100%;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 1.2em;
+    background-color: #3388cc;
+}
+.test-block > .block-content,
+.test-block-item.flex-row{
+    padding: 0.3em;
+    border: none;
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+}
+.block-content > .test-block-item{
+    padding: 0.3em;
+}
+
+.test-block-item.flex-row{
+    flex-direction: row!important;
+}
+
+pre{
+    padding: 0.5em;
+    background-color: #faf2cc;
+    display: block;
+    border-radius: 0.3em;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+pre.notes{
+    background-color: #ebccd1;
+}
+
+label{
+    color: #828282;
+    font-size: 1em;
+    padding: 0.3em;
+}
+label.notes{
+    display: block;
+    width: 100%;
+}
+
+.flex-row > .left{
+    width: 8em;
+    text-align: right;
+    color: red;
+}
+
+input{
+    font-size: 1em;
+    height: 1.5em;
+    line-height: 1.5em;
+    padding: 0.2em;
+    margin: 0.3em;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.2em;
+}
+
+button, input[type="submit"]{
+    width: auto;
+    padding: 0.5em 1em;
+    border-radius: 0.3em;
+    margin: 0.2em;
+    background-color: #c4e3f3;
+}
+
+input[type="submit"]{
+    font-size: 0.8em;
+    height: 30px;
+}
+
+a{
+    margin: 0.2em;
+    -webkit-tap-highlight-color:transparent;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+form label{
+    display: block;
+}
+
+input[type="radio"], input[type="checkbox"]{
+    margin-right: 15px;
+    height: 1em;
+}
+
+select{
+    min-width: 30%;
+    height: 30px;
+}
+
+.div-flex{
+    padding: 15px 0;
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+}
+
+.page-block{
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    border: 2px solid red;
+    overflow-y: auto;
+}

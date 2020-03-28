@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>测试记录</title>
+
+    <link rel="stylesheet" href="/static/plugins/bootstrap/dist/css/bootstrap.min.css">
+    <link href="/static/plugins/bootstrap-datatables/bootstrap-table.min.css" rel="stylesheet">
+</head>
+<body>
+<div style="margin: 20px">
+    <pre id="comments"></pre>
+    <div id="toolbar" class="btn-group">
+        <button type="button" class="btn btn-warning" data-original-title="删除所有测试结果" onclick="removeAll()">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 清空记录
+        </button>
+        <button type="button" class="btn btn-success" data-original-title="开启/关闭自动刷新表格" onclick="openAutoRefresh()">
+            <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> <span
+                id="btn_auto_refresh">开启自动刷新</span></button>
+    </div>
+
+    <table id="table_results" class="table table-bordered table-striped projects utm-table-skin">
+
+    </table>
+
+</div>
+
+<script src="/static/plugins/jquery/jquery.min.js"></script>
+<script src="/static/plugins/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- BootStrapTable -->
+<script src="/static/plugins/bootstrap-datatables/bootstrap-table.min.js"></script>
+<script src="/static/plugins/bootstrap-datatables/bootstrap-table-locale-all.min.js"></script>
+<script src="/static/plugins/bootstrap-datatables/extensions/export/bootstrap-table-export.min.js"></script>
+
+<script type="application/javascript">
+    var elComments,
+        resultTable,
+        isAutoRefresh = false,
+        elBtnAutoRefreshSpan;
+
+    var OPEN_AUTO_REFRESH = "开启自动刷新",
+        CLOSE_AUTO_REFRESH = "关闭自动刷新";
+
+    (function ($) {
+        var cellStyleSales = function (value, row, index) {
+                var css = {};
+                if (row.result === 0) {
+                    css = {css: {"background-color": "#ed969e"}}
+                }
+                return css;
+            },
+            cellFormatter = function (value, row, index) {
+                return value === 1 ? "passed" : 'failed';
+            };
+
+
+        var COLUMNS = [
+            {field: 'id', title: "id", sortable: true, cellStyle: cellStyleSales},
+            {field: 'device_id', title: "设备编号", sortable: true, cellStyle: cellStyleSales},
+            {field: 'platform', title: "平台", sortable: true, cellStyle: cellStyleSales},
+            {field: 'sys_version', title: "系统版本", sortable: true, cellStyle: cellStyleSales},
+            {field: 'manufacturer', title: "厂商", sortable: true, cellStyle: cellStyleSales},
+            {field: 'model', title: "型号", sortable: true, cellStyle: cellStyleSales},
+            {field: 'case_name', title: "用例名称", sortable: true, cellStyle: cellStyleSales},
+            {field: 'result', title: "测试结果", sortable: true, formatter: cellFormatter, cellStyle: cellStyleSales},
+            {field: 'run_datetime', title: "执行时间", sortable: true, cellStyle: cellStyleSales},
+            {field: 'error', title: "错误信息", sortable: false, cellStyle: cellStyleSales}
+        ];
+
+        var RESULT_SETTINGS = {
+            locale: "zh-CN",
+            theadClasses: "thead-light",
+            search: true,
+            toolbar: "#toolbar",
+            checkboxHeader: true,
+            showColumns: true,
+            useRowAttrFunc: false,
+            reorderableRows: false,
+            cache: false,
+            showRefresh: false,
+            showExport: true,
+            sortStable: true,
+            sortName: COLUMNS[1].field,
+            columns: null,
+            showPaginationSwitch: true,
+            pagination: true,
+            pageNumber: 1,
+            pageSize: 10
+        };
+
+        TestResult = function (tableId) {
+            this.timer = null;
+            this.tableId = tableId ? tableId : 'table_results';
+
+            this.settings = $.testResult.settings;
+            this.settings.onPreBody = this.onPreBody;
+            this.settings.columns = $.testResult.columns;
+            this.settings.sortName = $.testResult.columns[1].field;
+            this.el = $('#' + this.tableId);
+        };
+
+        TestResult.prototype.onPreBody = function (data) {
+            setTimeout(function () {
+                var failed = 0;
+                var models = [], manufacturers = [], sys_version = [];
+                var commentsTemplate = "用例总数: count, 执行失败: failed.\n测试设备总数: models\n覆盖厂商数量: manufacturers\n覆盖系统版本数: sys_version";
+                for (var i = 0; i < data.length; i++) {
+                    var re = data[i];
+
+                    if (models.indexOf(re.model) < 0) models.push(re.model);
+                    if (manufacturers.indexOf(re.manufacturer) < 0) manufacturers.push(re.manufacturer);
+                    if (sys_version.indexOf(re.sys_version) < 0) sys_version.push(re.sys_version);
+                    if (re.result === 0) failed++;
+                }
+                commentsTemplate = commentsTemplate.replace("count", data.length)
+                    .replace("failed", failed)
+                    .replace("models", models.length)
+                    .replace("manufacturers", manufacturers.length)
+                    .replace("sys_version", sys_version.length);
+                elComments.text(commentsTemplate);
+            }, 1);
+        };
+
+        TestResult.prototype.initTable = function () {
+            this.url = $.testResult.url;
+            this.el.bootstrapTable(this.settings);
+            this.load();
+        };
+
+        TestResult.prototype.load = function (request_data) {
+            failedCount = 0;
+            var defaultData = {"request_type": "load_results"};
+            request_data = (typeof request_data === 'undefined') ? defaultData : request_data;
+            var that = this;
+            $.ajax({
+                type: "post",
+                url: that.url,
+                data: request_data,
+                contentType: 'application/x-www-form-urlencoded',
+                complete: function (xhr) {
+                    var data = JSON.parse(xhr.responseText);
+                    that.el.bootstrapTable('load', data);
+                    that.checkAutoRefresh();
+                }
+            });
+        };
+
+        TestResult.prototype.checkAutoRefresh = function () {
+            var that = this;
+            if (isAutoRefresh) {
+                var refreshTime = 3, delay = 1, currentTimes = 0; //秒
+                elBtnAutoRefreshSpan.text(CLOSE_AUTO_REFRESH + " (" + refreshTime + "秒) ");
+                this.timer = setInterval(function () {
+                    if (!isAutoRefresh) {
+                        return;
+                    }
+                    currentTimes++;
+                    var remain = refreshTime - currentTimes;
+                    if (remain === 0) {
+                        clearInterval(that.timer);
+                        resultTable.load();
+                    } else {
+                        elBtnAutoRefreshSpan.text(CLOSE_AUTO_REFRESH + " (" + remain + "秒) ");
+                    }
+                }, delay * 1000);
+            } else {
+                if (this.timer != null) {
+                    clearInterval(this.timer);
+                    this.timer = null;
+                }
+            }
+        };
+
+        function Plugin(tableId) {
+            return new TestResult(tableId);
+        }
+
+        $.testResult = Plugin;
+        $.testResult.settings = RESULT_SETTINGS;
+        $.testResult.columns = COLUMNS;
+        $.testResult.url = window.location.href;
+    })(jQuery);
+
+    $(function () {
+        'use strict';
+
+        elComments = $("#comments");
+        elBtnAutoRefreshSpan = $("#btn_auto_refresh");
+        resultTable = $.testResult();
+        resultTable.initTable();
+
+        $('button').tooltip();
+    });
+
+    function removeAll() {
+        $.ajax({
+            type: "post",
+            url: window.location.href,
+            data: {"request_type": "remove_all"},
+            contentType: 'application/x-www-form-urlencoded',
+            complete: function (xhr) {
+                if (!isAutoRefresh) resultTable.load();
+            }
+        });
+    }
+
+    function openAutoRefresh() {
+        if (elBtnAutoRefreshSpan.text() === OPEN_AUTO_REFRESH) {
+            isAutoRefresh = true;
+            resultTable.load();
+            elBtnAutoRefreshSpan.text(CLOSE_AUTO_REFRESH);
+        } else {
+            isAutoRefresh = false;
+            clearInterval(resultTable.timer);
+            elBtnAutoRefreshSpan.text(OPEN_AUTO_REFRESH);
+        }
+    }
+
+    function updateComments() {
+
+    }
+
+</script>
+</body>
+</html>

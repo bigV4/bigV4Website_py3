@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title>My Webpage</title>
+        <script src="../static/js/jquery-1.11.1.min.js"></script>
+    </head>
+    <script>
+        ajaxUrl = "http://10.10.17.10:5001/api/?type=ajaxloading";
+        (function sendRequestLoading () {
+            $.ajax({
+                url: ajaxUrl,
+                type: "GET",
+                success: function (data) {
+                        var result = JSON.stringify(data);
+                    }
+            });
+
+            $.ajax({
+                url: ajaxUrl,
+                type: "POST",
+                data: "This is ajax request body.",
+                success: function (data) {
+                        var result = JSON.stringify(data);
+                    }
+            });
+        }());
+    </script>
+    <img id="img1" src="../static/img/image.jpeg" alt=""></img>
+</html>
