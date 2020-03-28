@@ -29,6 +29,7 @@ $ source env/bin/activate
 ### 验证码识别依赖
 ```
 (env) $ pip3 install torch -i https://pypi.doubanio.com/simple
+(env) $ pip3 install captcha -i https://pypi.doubanio.com/simple
 ```
 # git管理
 ## 通过“.gitignore”文件
