@@ -1,5 +1,9 @@
 # 简介
-* 一个网站
+一个网站
+## 功能
+* 获得ip和请求头等信息`/ifconfig`
+* 
+## 结构
 * 按照 分区 组织。同一个功能的模板，静态文件，视图都在一个文件夹内。比如api、auth、main三个模块。
 
 ```
@@ -28,7 +32,7 @@ $ source env/bin/activate
 ```
 # git管理
 ## 通过“.gitignore”文件
-    一般来说每个Git项目中都需要一个“.gitignore”文件，这个文件的作用就是告诉Git哪些文件不需要添加到版本管理中。
+一般来说每个Git项目中都需要一个“.gitignore”文件，这个文件的作用就是告诉Git哪些文件不需要添加到版本管理中。
 实际项目中，很多文件都是不需要版本管理的，比如Python的.pyc文件和一些包含密码的配置文件等等。
 这个文件的内容是一些规则，Git会根据这些规则来判断是否将文件添加到版本控制中。
 最后需要强调的一点是，如果你不慎在创建.gitignore文件之前就push了项目，那么即使你在.gitignore文件中写入新的过滤规则，这些规则也不会起作用,Git仍然会对所有文件进行版本管理。
@@ -48,7 +52,7 @@ obj/
 venv/
 ```
 
-然后调用git add. ，执行 git commit即可。
+然后调用`git add . `，执行 `git commit`即可。
 
 ## 命令删除github的文件
 
@@ -62,7 +66,7 @@ $ ls                            # 查看有哪些文件夹
 $ git rm -r --cached target     # 删除target文件夹
 $ git commit -m '删除了target'   # 提交,添加操作说明
 $ git push -u origin master     # 将本次更改更新到github项目上去
-————————————————
 ```
+————————————————————————————————————————————————
 注:本地项目中的target文件夹不收操作影响,删除的只是远程仓库中的target, 可放心删除，每次增加文件或删除文件，都要commit 然后直接 `git push -u origin master`，就可以同步到github上了
 示例：`https://api.github.com/repos/用户名/仓库名`
