@@ -40,10 +40,10 @@ $ source env/bin/activate
 在代码目录下建立.gitignore文件：vim .gitignore ,内容如下：
 ```
 #过滤数据库文件、sln解决方案文件、配置文件  
-*.mdb  
-*.ldb  
-*.sln  
-*.config  
+*.mdb
+*.ldb
+*.sln
+*.config
 
 #过滤文件夹Debug,Release,obj,venv
 Debug/  
