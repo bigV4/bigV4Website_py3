@@ -65,4 +65,5 @@ $ git commit -m '删除了target'        # 提交,添加操作说明
 $ git push -u origin master               # 将本次更改更新到github项目上去
 ————————————————
 注:本地项目中的target文件夹不收操作影响,删除的只是远程仓库中的target, 可放心删除，每次增加文件或删除文件，都要commit 然后直接 git push -u origin master，就可以同步到github上了
+示例：https://api.github.com/repos/用户名/仓库名
 ```
