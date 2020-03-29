@@ -24,7 +24,15 @@ $ python3 -m venv venv
 $ source env/bin/activate
 (env) $ pip3 install flask # 可以使用豆瓣的源例如：pip3 install flask -i https://pypi.doubanio.com/simple
 (env) $ pip3 install flask-restful
+```
+
+
+
+### 验证码识别依赖
+```
 (env) $ pip3 install torch -i https://pypi.doubanio.com/simple
+(env) $ pip3 install torchvision -i https://pypi.doubanio.com/simple
+(env) $ pip3 install captcha -i https://pypi.doubanio.com/simple
 ```
 * 安装成功后发现报错：
 ```
@@ -38,20 +46,16 @@ ImportError: dlopen(/Library/Frameworks/Python.framework/Versions/3.8/lib/python
   Referenced from: /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/torch/_C.cpython-38-darwin.so
   Reason: image not found
 ```
-`libc++.1.dylib`
-在 `/usr/lib`下，使用 `install_name_tool`
+* 解决:
+`libc++.1.dylib`在 `/usr/lib`下，使用 `install_name_tool`
+
 ```
 install_name_tool -add_rpath /usr/lib /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/torch/_C.cpython-38-darwin.so
 ```
-解决:
-* brew太慢，brew支持全局socks代理使用前加上这一句：`export ALL_PROXY=socks5://10.10.8.66:1080`
 
-### 验证码识别依赖
-```
-(env) $ pip3 install torch -i https://pypi.doubanio.com/simple
-(env) $ pip3 install torchvision -i https://pypi.doubanio.com/simple
-(env) $ pip3 install captcha -i https://pypi.doubanio.com/simple
-```
+* brew太慢，brew支持全局socks代理使用前加上这一句：`export ALL_PROXY=socks5://127.0.0.1:1080`
+
+
 # git管理
 ## 通过“.gitignore”文件
 一般来说每个Git项目中都需要一个“.gitignore”文件，这个文件的作用就是告诉Git哪些文件不需要添加到版本管理中。
