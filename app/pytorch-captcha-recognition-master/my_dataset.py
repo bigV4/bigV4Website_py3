@@ -11,30 +11,8 @@ import captcha_setting
 import random
 
 class mydataset(Dataset):
-    def creattestpng(self,folder):
-        for i in range(1000):
-                now = str(int(time.time()))
-                captcha_text = []
-                for m in range(captcha_setting.MAX_CAPTCHA):# MAX_CAPTCHA每个验证码最大字符数
-                    c = random.choice(captcha_setting.ALL_CHAR_SET)
-                    captcha_text.append(c)
-                captcha_text_str = ''.join(captcha_text)
-                image = ImageCaptcha()
-                text = captcha_text_str
-                captcha_image = Image.open(image.generate(captcha_text))
-                filename = text+'_'+now+'.png'
-                captcha_image.save(folder  + os.path.sep +  filename)
-                print('saved %d : %s  to  %s' % (i+1,filename,folder ))
 
     def __init__(self, folder, transform=None):
-        try:
-            print(os.path.exists(folder))
-            shutil.rmtree(folder)  #清空指定文件夹下所有文件并删除了该文件夹
-            print(len(os.listdir(folder)))
-        except Exception as e:
-            os.makedirs(folder)
-            pass
-        self.creattestpng(folder)
         print(len(os.listdir(folder))) #文件夹下无文件，返回0
         self.train_image_file_paths = [os.path.join(folder, image_file) for image_file in os.listdir(folder)]
         self.transform = transform
@@ -59,7 +37,6 @@ transform = transforms.Compose([
     # transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 ])
 def get_train_data_loader():
-
     dataset = mydataset(captcha_setting.TRAIN_DATASET_PATH, transform=transform)
     return DataLoader(dataset, batch_size=64, shuffle=True)
 
