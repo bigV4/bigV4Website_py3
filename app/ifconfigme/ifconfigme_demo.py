@@ -21,7 +21,12 @@ def ifconfig_me():
         host = request.headers['Host']
     except Exception as e_host:
         host = None
-    return render_template('ifconfig_me.html', user_ip=ip, ua=ua, xff=xff,host=host,port=port)
+    return render_template('ifconfig_me.html', 
+    user_ip=ip, 
+    ua=ua, 
+    xff=xff,
+    host=host,
+    port=port)
 
 @ifconfigme.route('/ifconfig/ip/', methods=['GET','POST'])
 @ifconfigme.route('/ifconfig/ip')

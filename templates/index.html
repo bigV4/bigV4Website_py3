@@ -139,6 +139,21 @@
     </div>
 </div>
 
+
+<h3>上传验证码图片，进行识别</h3>
+<form action="/tmp_api/captcha/" enctype='multipart/form-data' method='POST'>
+    <input type="file" name="file" style="margin-top:20px;"/>
+    <br>
+    <i>请输入你的名字：</i>
+    <input type="text" class="txt_input" name="name"  value="张三" style="margin-top:10px;"/>
+    <input type="submit" value="上传" class="button-new" style="margin-top:15px;"/>
+</form>
+<h3>提交的名字是：{{userinput}}！</h3>
+<h3>识别的验证码是：{{identifytext}}！</h3>
+<img src="/static/up_photo/test.jpg" width="{{imgW}}" height="{{imgH}}" alt="你的图片被外星人劫持了～～"/>
+<i>{{val1}}</i>
+
+
 <script type="application/javascript" src="/static/js/jquery-1.11.1.min.js"></script>
 <script type="application/javascript" src="/static/app/app.js?abc=xxx&edf=yyy" charset="UTF-8"></script>
 
