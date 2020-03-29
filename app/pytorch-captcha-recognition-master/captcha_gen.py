@@ -27,9 +27,10 @@ def main():
 
     try:
         print(os.path.exists(path)) # 文件夹不存在，返回False。文件夹存在，返回Ture。
-        if len(os.listdir(path)) > count:
+        if len(os.listdir(path)) > 2000000:
+            print(len(os.listdir(path)))
             geshu = len(os.listdir(path))
-            for i in range(0,geshu-count):
+            for i in range(0,geshu-2000000):
                 os.remove(os.listdir(path)[i]) 
         #shutil.rmtree(path)  #清空指定文件夹下所有文件并删除了该文件夹
         print(len(os.listdir(path)))

@@ -15,7 +15,7 @@ class mydataset(Dataset):
         for i in range(1000):
                 now = str(int(time.time()))
                 captcha_text = []
-                for i in range(captcha_setting.MAX_CAPTCHA):# MAX_CAPTCHA每个验证码最大字符数
+                for m in range(captcha_setting.MAX_CAPTCHA):# MAX_CAPTCHA每个验证码最大字符数
                     c = random.choice(captcha_setting.ALL_CHAR_SET)
                     captcha_text.append(c)
                 captcha_text_str = ''.join(captcha_text)

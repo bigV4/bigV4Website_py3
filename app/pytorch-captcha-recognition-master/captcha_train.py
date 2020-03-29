@@ -8,7 +8,7 @@ from captcha_cnn_model import CNN
 import captcha_setting
 
 # Hyper Parameters
-num_epochs = 30 #step不能大于num_epochs。也许num_epochs是训练次数的上限，而steps是实际训练次数。
+num_epochs = 60 #step不能大于num_epochs。也许num_epochs是训练次数的上限，而steps是实际训练次数。
 batch_size = 100
 learning_rate = 0.001
 
