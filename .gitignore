@@ -2,8 +2,9 @@
 *.mdb
 *.db
 *.ldb  
-*.sln  
+*.sln
 *.config
+*.pyc
 
 #过滤文件夹Debug,Release,obj,venv
 Debug/  

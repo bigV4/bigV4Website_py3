@@ -26,9 +26,30 @@ $ source env/bin/activate
 (env) $ pip3 install flask-restful
 (env) $ pip3 install torch -i https://pypi.doubanio.com/simple
 ```
+* 安装成功后发现报错：
+```
+>>> import torch
+Traceback (most recent call last):
+  File "<pyshell#10>", line 1, in <module>
+    import torch
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/torch/__init__.py", line 97, in <module>
+    from torch._C import *
+ImportError: dlopen(/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/torch/_C.cpython-38-darwin.so, 9): Library not loaded: @rpath/libc++.1.dylib
+  Referenced from: /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/torch/_C.cpython-38-darwin.so
+  Reason: image not found
+```
+`libc++.1.dylib`
+在 `/usr/lib`下，使用 `install_name_tool`
+```
+install_name_tool -add_rpath /usr/lib /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/torch/_C.cpython-38-darwin.so
+```
+解决:
+* brew太慢，brew支持全局socks代理使用前加上这一句：`export ALL_PROXY=socks5://10.10.8.66:1080`
+
 ### 验证码识别依赖
 ```
 (env) $ pip3 install torch -i https://pypi.doubanio.com/simple
+(env) $ pip3 install torchvision -i https://pypi.doubanio.com/simple
 (env) $ pip3 install captcha -i https://pypi.doubanio.com/simple
 ```
 # git管理

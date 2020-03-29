@@ -10,7 +10,7 @@ import one_hot_encoding
 def main():
     cnn = CNN()
     cnn.eval()
-    cnn.load_state_dict(torch.load('model.pkl'))
+    cnn.load_state_dict(torch.load('captcha_%s_model.pkl'%captcha_setting.MAX_CAPTCHA))
     print("load cnn net.")
 
     test_dataloader = my_dataset.get_test_data_loader()
@@ -31,7 +31,7 @@ def main():
         total += labels.size(0)
         if(predict_label == true_label):
             correct += 1
-        if(total%200==0):
+        if(total%10000==0):
             print('Test Accuracy of the model on the %d test images: %f %%' % (total, 100 * correct / total))
     print('Test Accuracy of the model on the %d test images: %f %%' % (total, 100 * correct / total))
 

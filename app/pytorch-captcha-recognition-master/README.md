@@ -68,7 +68,7 @@
 ===
 我们期待你的 pull requests !
 
-作者
+原作者
 ===
 * __Dee Qiu__ <coolcooldee@gmail.com>
 
@@ -80,3 +80,12 @@
 声明
 ===
 本项目仅用于交流学习
+
+修改者
+===
+* __bigV4__ <@gmail.com>
+
+修改部分
+===
+* captcha_setting.py变更为包括小写字母
+* 
