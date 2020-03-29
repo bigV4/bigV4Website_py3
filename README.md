@@ -33,6 +33,8 @@ $ source env/bin/activate
 (env) $ pip3 install torch -i https://pypi.doubanio.com/simple
 (env) $ pip3 install torchvision -i https://pypi.doubanio.com/simple
 (env) $ pip3 install captcha -i https://pypi.doubanio.com/simple
+(env) $ pip3 install matplotlib -i https://pypi.doubanio.com/simple
+(env) $ pip3 install alphabet -i https://pypi.doubanio.com/simple
 ```
 * 安装成功后发现报错：
 ```
