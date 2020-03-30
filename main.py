@@ -23,12 +23,14 @@ from werkzeug import utils
 from login_demo import login    # 从分路由倒入路由函数
 from app.ifconfigme.ifconfigme_demo import ifconfigme # 从分路由倒入路由函数
 from app.api.api_views import tmp_api # 从分路由倒入路由函数
+from app.mobile.mobile_views import mobile # 从分路由倒入路由函数
 app = Flask(__name__,template_folder='templates')
 
 
 # 注册蓝图 第一个参数 是蓝图对象
 app.register_blueprint(ifconfigme) # 注册蓝图ifconfigme 第一个参数 是蓝图对象
 app.register_blueprint(tmp_api) # 注册蓝图tmp_api 第一个参数 是蓝图对象
+app.register_blueprint(mobile) # 注册蓝图mobile 第一个参数 是蓝图对象
 
 app.config.from_object(__name__)
 app.config.update(dict(
@@ -193,8 +195,26 @@ def favicon():
 @app.route("/index.htm")
 @app.route("/index.mhtml")
 def home():
-    return render_template('index.html')
+    text = render_template('index.html')
+    resp = make_response(text)
+    resp.headers["Access-Control-Allow-Origin"] = "*"
+    return resp
 
+@app.route("/list/", methods=['GET', 'POST'])
+@app.route("/listjsp")
+@app.route("/list.asp")
+@app.route("/list.aspx")
+@app.route("/list.php")
+@app.route("/list.html")
+@app.route("/list.htm")
+@app.route("/list.mhtml")
+def list2other():
+    return render_template('list.html')
+
+
+@app.route("/about/", methods=['GET'])
+def show_about():
+    return render_template('about.html')
 
 @app.route("/large_page/", methods=['GET', 'POST'])
 def large_page():
@@ -313,8 +333,11 @@ def api_gzip():
         f.close()
     except Exception as ex:
         print("Request data: {0}, needn't to unzip.".format(ex))
-
-    data = json.dumps({'records': body}).decode('unicode-escape').encode('utf-8')
+    try:
+        data = json.dumps({'records': body}).decode('unicode-escape').encode('utf-8')
+    except Exception as eee:
+        print(eee)
+        data = json.dumps({'records': body})
 
     gzip_buffer = IO()
     gzip_file = gzip.GzipFile(mode='wb', fileobj=gzip_buffer)
@@ -485,109 +508,6 @@ def api_download(filename):
     abort(404)
 
 
-@app.route("/about/", methods=['GET'])
-def show_about():
-    return render_template('about.html')
-
-userInfo = {
-            'feifei': {'user_name': 'feifei', 'age': '30', 'sex': 'male', 'Tel': '13867239769', 'amount': '10000'},
-            'qiqi': {'user_name': 'qiqi', 'age': '25', 'sex': 'female', 'Tel': '17788127747', 'amount': '30000'},
-            'liyi': {'user_name': 'liyi', 'age': '20', 'sex': 'male', 'Tel': '18862379965', 'amount': '22000'},
-            'lili': {'user_name': 'lili', 'age': '56', 'sex': 'female', 'Tel': '13934081287', 'amount': '20030'},
-            'zhangdm': {'user_name': 'zhangdm', 'age': '27', 'sex': 'male', 'Tel': '16691839283', 'amount': '60000'},
-            'limumu': {'user_name': 'limumu', 'age': '21', 'sex': 'male', 'Tel': '13199238746', 'amount': '70000'},
-            'limu': {'user_name': 'limu', 'age': '29', 'sex': 'male', 'Tel': '138618397712', 'amount': '77000'}
-            }
-
-userPasswdDic = {
-            'feifei': "PassWord",
-            'qiqi': "123456",
-            'liyi': "666666",
-            'lili': "mimajiushi1",
-            'zhangdm': "123321",
-            'limumu': "qazwsx",
-            'limu': "qwe123"
-            }
-
-@app.route("/detail/", methods=['GET', 'POST'])
-def userDetail():
-    user = ""
-    if request.method == 'GET':
-        user = request.args.get("user")
-    elif request.method == 'POST':
-        if request.form is not None and len(request.form) > 0:
-            user = request.form.get("user")
-
-    resp = make_response(json.dumps(userInfo.get(user, ""), ensure_ascii=False))
-    resp.headers["Access-Control-Allow-Origin"] = "*"
-    return resp
-
-
-@app.route("/register/", methods=['GET', 'POST', 'OPTIONS', 'HEAD'])
-@app.route("/login/", methods=['GET', 'POST', 'OPTIONS', 'HEAD'])
-@app.route("/login", methods=['GET', 'POST', 'OPTIONS', 'HEAD'])
-@app.route("/userinfo.do", methods=['GET', 'POST', 'OPTIONS', 'HEAD'])
-def register():
-    user = ""
-    name = ""
-    password = ""
-    argslist =[]
-    if request.method == 'POST':
-        try:
-            if request.json is not None:
-                #请求的Content-Type: application/json
-                data = request.json
-                print("request.json",type(request.json), request.json)
-                name = data["uid"]
-                password = data["passw"]
-                print("name",name)
-                print("password",password)
-            elif request.form is not None and len(request.form) > 0:
-                #请求的Content-Type: application/x-www-form-urlencoded
-                data = request.form
-                print("request.form",type(request.form), request.form)
-                for key in data:
-                    argslist.append(key)
-                print(argslist)
-                if ""!=data.getlist(argslist[0])[0]:
-                    #data为uid=qiqi&passw=123456的情况
-                    name = data.getlist("uid")[0]
-                    password = data.getlist("passw")[0]
-                else:
-                    #data为qiqi&123456的情况
-                    for key in data:
-                        if not name:
-                            name = key
-                        elif not password:
-                            password = key
-                    
-            elif type(request.data) == str:
-                data = json.dumps(request.data, ensure_ascii=False)
-
-            user = data.get("user_name")
-        except Exception as e:
-            print("Json does not exist!!")
-            print(e)
-            return str(e)
-    elif request.method == 'GET':
-        name = request.args.get("uid")
-        password = request.args.get("passw")
-
-    info = ""
-    if name in userInfo.keys():
-        if password == userPasswdDic.get(name):
-            info = userInfo.get(name)
-        else:
-            info = {'error': u'密码错误!'}
-
-    if not info:
-        info = {'error': u'用户不存在!'}
-
-    resp = make_response(json.dumps(info, ensure_ascii=False))
-    resp.headers["Access-Control-Allow-Origin"] = "*"
-    resp.headers['Access-Control-Allow-Methods'] = 'GET,POST,OPTIONS,HEAD'
-    return resp
-
 
 @app.route(
     "/api/testestestestestestestestestestestestestestestestestestest/test",
@@ -612,7 +532,8 @@ def world_languages():
     return resp
 
 
-@app.route("/inner_page/", methods=['GET', 'POST', 'OPTIONS', 'HEAD'])
+@app.route("/inner_page.html", methods=['GET', 'POST', 'OPTIONS', 'HEAD'])
+@app.route("/inner_page/")
 def inner_page():
     if request.method == 'GET':
         text = render_template('inner_page.html')
@@ -716,6 +637,7 @@ def redirect():
         resp.headers["location"] = "http://{0}/".format(request.host)
     return resp
 
+@app.route("/make_redirect/", methods=['GET'])
 @app.route("/make_redirect", methods=['GET'])
 def make_redirect():
     resp = make_response("302", 302)
@@ -820,6 +742,7 @@ def returnpac():
 
 if __name__ == "__main__":
     init_db()
+    MYPORT = 8089
     try:
         a = 0
         if sys.argv:
@@ -829,13 +752,13 @@ if __name__ == "__main__":
             if 1<=int(sys.argv[1])<=65535:
                 app.run(host='::', port=sys.argv[1], threaded=True, debug=True)
             else:
-                app.run(host='::', port=8089, threaded=True, debug=True)
+                app.run(host='::', port=MYPORT, threaded=True, debug=True)
     except  IndexError as e1:
         print(e1)
-        app.run(host='::', port=8089, threaded=True, debug=True)
+        app.run(host='::', port=MYPORT, threaded=True, debug=True)
     except  ValueError as e2:
         print(e2)
-        app.run(host='::', port=8089, threaded=True, debug=True)
+        app.run(host='::', port=MYPORT, threaded=True, debug=True)
     
     # server = pywsgi.WSGIServer(('::', 5001), app)
     # server.serve_forever()

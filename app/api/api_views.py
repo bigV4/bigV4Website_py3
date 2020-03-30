@@ -30,7 +30,8 @@ class TmpApiResource(Resource):
         return '/tmp_api'
         pass
 
-@tmp_api.route('/tmp_api/captcha/', methods=['GET','POST'])
+@tmp_api.route('/captcha/', methods=['GET','POST'])
+@tmp_api.route('/captcha.html', methods=['GET','POST'])
 def api_captcha():
     if request.method == 'POST':
         f = request.files['file']
@@ -38,9 +39,9 @@ def api_captcha():
         if not (f and allowed_file(f.filename)):
             return '''<!DOCTYPE html>
             <html lang="en"><head><meta charset="UTF-8"><title>验证码识别</title></head>
-                <body><div><h3>上传验证码图片，进行识别</h3>
+                <body><div><a href="/">返回首页</a><br><h3>上传验证码图片，进行识别</h3>
                         <i>Please check the type of image uploaded, only {}</i>
-                        <form method="post" action="/tmp_api/captcha/" enctype="multipart/form-data">
+                        <form method="post" action="/captcha/" enctype="multipart/form-data">
                         <input type="file" size="30" name="file" style="margin-top:20px;"/><br>
                         <input type="submit" value="提交图片" class="button-new" style="margin-top:15px;"/>
                         </form></div>
@@ -63,8 +64,8 @@ def api_captcha():
         identifytext =identify.identify(img)
         return '''<!DOCTYPE html>
         <html lang="en"><head><meta charset="UTF-8"><title>验证码识别</title></head>
-            <body><div><h3>上传验证码图片，进行识别</h3>
-                    <form method="post" action="/tmp_api/captcha/" enctype="multipart/form-data">
+            <body><div><a href="/">返回首页</a><br><h3>上传验证码图片，进行识别</h3>
+                    <form method="post" action="/captcha/" enctype="multipart/form-data">
                     <input type="file" size="30" name="file" style="margin-top:20px;"/><br>
                     <input type="submit" value="提交图片" class="button-new" style="margin-top:15px;"/>
                     </form></div>
@@ -77,8 +78,8 @@ def api_captcha():
  
     return '''<!DOCTYPE html>
         <html lang="en"><head><meta charset="UTF-8"><title>验证码识别</title></head>
-            <body><div><h3>上传验证码图片，进行识别</h3>
-                    <form method="post" action="/tmp_api/captcha/" enctype="multipart/form-data">
+            <body><div><a href="/">返回首页</a><br><h3>上传验证码图片，进行识别</h3>
+                    <form method="post" action="/captcha/" enctype="multipart/form-data">
                     <input type="file" size="30" name="file" style="margin-top:20px;"/><br>
                     <input type="submit" value="提交图片" class="button-new" style="margin-top:15px;"/>
                     </form></div>

@@ -28,6 +28,7 @@
         <pre class="notes">【查看兼容测试结果】仅显示与当前服务器关联的测试记录</pre>
         <a href="/test_result/">查看兼容测试结果</a>
         <a href="/about/">关于页面</a>
+        <a href="/list/">其他页面列表</a>
     </div>
 </div>
 
@@ -270,12 +271,12 @@
 
     function loadLocalPage() {
         pageBlock.text("");
-        ajaxLoadPage("/local_page/pages/inner_page.html?page_from_local");
+        ajaxLoadPage("/inner_page.html?page_from_local");
     }
 
     function loadRemotePage() {
         pageBlock.text("");
-        ajaxLoadPage("/inner_page/?abc=xxx&edf=yyy#aaa");
+        ajaxLoadPage("https://www.cnblogs.com/?abc=xxx&edf=yyy#aaa");
     }
 
     window.onload = function (ev) {
@@ -287,7 +288,7 @@
             ajax[info[0]]();
         });
     }
-
+</script>
 
 </body>
 </html>

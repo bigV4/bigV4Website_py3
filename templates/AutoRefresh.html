@@ -1,15 +1,48 @@
-
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Page Title</title>
+    <meta charset="UTF-8">
+    <title>Test Page Auto Refresh</title>
+    <link rel="stylesheet" href="/static/app/app.css">
+
+    <style>
+        pre {
+            outline: 1px solid #ccc;
+            padding: 5px;
+            margin: 5px;
+        }
+
+        .string {
+            color: green;
+        }
+
+        .number {
+            color: darkorange;
+        }
+
+        .boolean {
+            color: blue;
+        }
+
+        .null {
+            color: magenta;
+        }
+
+        .key {
+            color: red;
+        }
+    </style>
 </head>
 <body>
+<a href="/">返回首页</a><br>
+<div class="test-block">
+   <div class="block-title">First Heading</div>
+   <pre id="result"></pre>
+   <div class="block-content"><p class="block-content">first paragraph. first paragraph. first paragraph.</p></div>
+   <pre id="result"></pre>
+   <div class="block-content"><p class="block-content">This webpage will auto refresh in one senconds</p></div>
+</div>
 
-<h1>First Heading</h1>
-<p>first paragraph. first paragraph. first paragraph.</p>
-<p>This webpage will auto refresh in one senconds</p>
 <script language="JavaScript">
 function myrefresh()
 {
@@ -17,6 +50,5 @@ function myrefresh()
 }
 setTimeout('myrefresh()',1000); //指定1秒刷新一次
 </script>
-
 </body>
 </html>
