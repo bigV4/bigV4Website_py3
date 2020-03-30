@@ -8,7 +8,7 @@ from captcha_cnn_model import CNN
 import captcha_setting
 
 # Hyper Parameters
-num_epochs = 100 # step不能大于num_epochs。也许num_epochs是训练次数的上限，而steps是实际训练次数。
+num_epochs = 200 # step不能大于num_epochs。也许num_epochs是训练次数的上限，而steps是实际训练次数。
 batch_size = 128 # 训练样本的子集大小（例如1000个样本中的100个），该样本将用于在学习过程中训练网络。针对所有样本的一次迭代
 learning_rate = 0.001 # 学习率作为监督学习以及深度学习中重要的超参，其决定着目标函数能否收敛到局部最小值以及何时收敛到最小值。
 
