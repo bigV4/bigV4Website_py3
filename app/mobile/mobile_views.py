@@ -5,18 +5,16 @@
 from flask import render_template, make_response, request,jsonify
 from flask_restful import Api, Resource
 from flask import Blueprint
-
 from werkzeug.utils import secure_filename
-from app.pytorch_captcha import identify
 import base64
 import os
 import time
-from PIL import Image
+import json
 mobile = Blueprint('mobile', __name__)
 
 
 @mobile.route('/mobile/', methods=['GET','POST'])
-def mobilemain(self):
+def mobilemain():
     return '/mobile/'
     pass
 
@@ -69,6 +67,7 @@ def mobile_register():
         try:
             if request.json is not None:
                 #请求的Content-Type: application/json
+                #curl -H "Content-Type:application/json" -X POST -d '{"uid":"admin", "passw":"12345678"}' http://127.0.0.1:8089/mobile/login
                 data = request.json
                 print("request.json",type(request.json), request.json)
                 name = data["uid"]
@@ -84,10 +83,12 @@ def mobile_register():
                 print(argslist)
                 if ""!=data.getlist(argslist[0])[0]:
                     #data为uid=qiqi&passw=123456的情况
+                    #curl -d "uid=admin&passw=12345678" http://127.0.0.1:8089/mobile/login
                     name = data.getlist("uid")[0]
                     password = data.getlist("passw")[0]
                 else:
                     #data为qiqi&123456的情况
+                    #curl -d "admin&12345678" http://127.0.0.1:8089/mobile/login
                     for key in data:
                         if not name:
                             name = key
