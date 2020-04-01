@@ -19,7 +19,7 @@ tmp_api = Blueprint('tmp_api', __name__)
 api = Api()
 
 imgfortlist = list(set(['png', 'jpg', 'jpeg', "gif", "bmp", "tif","pcx", 
-"tga", "exif", "fpx", "svg", "psd", "wmf", "webp"]))
+"tga", "exif", "fpx", "svg", "psd", "wmf", "webp","xcf"]))
 imgfortlist += [str.upper() for str in imgfortlist]
 ALLOWED_EXTENSIONS = set(imgfortlist)
 
@@ -67,7 +67,7 @@ def ProcessingCaptchaImg(f):
         print(e)
         pass
     msg = {"Filename": Filename,
-            "ImgFormat": Imgformat,
+            "Imgformat": Imgformat,
             "Identifytext": Identifytext,
             "BeforSize": (imgH0, imgW0),
             "AfterSize": (imgH1, imgW1),
@@ -118,16 +118,16 @@ def api_captcha():
             return msg
         return '''<!DOCTYPE html>
         <html lang="en"><head><meta charset="UTF-8"><title>验证码识别</title></head>
-            <body><div><a href="/">返回首页</a><br><h3>上传验证码图片，进行识别</h3>
-                    <form method="post" action="/captcha/" enctype="multipart/form-data">
-                    <input type="file" size="30" name="file" style="margin-top:20px;"/><br>
-                    <input type="submit" value="提交图片" class="button-new" style="margin-top:15px;"/>
-                    </form></div>
-                <h3>提交的文件名是：{Filename}</h3>
-                <h3>识别的验证码是：{Identifytext}！</h3>
-                <img src={AIB64} border="1" height="{imgH1}" width="{imgW1}" alt="你的图片被外星人劫持了～～"/><br>
-                <img src={BIB64} border="1" height="{imgH0}" width="{imgW0}" alt="你的图片被外星人劫持了～～"/>
-            </body>
+        <body><div><a href="/">返回首页</a><br><h3>上传验证码图片，进行识别</h3>
+                <form method="post" action="/captcha/" enctype="multipart/form-data">
+                <input type="file" size="30" name="file" style="margin-top:20px;"/><br>
+                <input type="submit" value="提交图片" class="button-new" style="margin-top:15px;"/>
+                </form></div>
+            <h3>提交的文件名是：{Filename}</h3>
+            <h3>识别的验证码是：{Identifytext}！</h3>
+            <img src={AIB64} style="border:5px solid black" height="{imgH1}" width="{imgW1}" alt="图片被外星人劫持了～"/><br>
+            <img src={BIB64} style="border:5px solid black" height="{imgH0}" width="{imgW0}" alt="图片被外星人劫持了～"/>
+        </body>
         </html>
         '''.format(Filename = msg["Filename"],
                    Identifytext = msg["Identifytext"],
@@ -163,7 +163,9 @@ def api_captcha_2():
         if not (f and allowed_file(f.filename)):
             return jsonify({"Error": 1001, "msg": "Please check the type of image uploaded, only %s" % str(imgfortlist)})
         msg = ProcessingCaptchaImg(f)
-        return jsonify(msg)
+        subkey = ["Filename","Imgformat","Identifytext"]
+        subdict=dict([(key, msg[key]) for key in subkey])
+        return jsonify(subdict)
         '''
         1.将图片转换为Base64编码，可以很方便地在没有上传文件的条件下将图片插入其它的网页、编辑器中。
         2.加入图片在线转base64的结果为"data:image/png;base64,iVBORw0KGgo=..."，那么你只需要全部复制，然后在插入图片的时候，src地址填写这段代码即可。
