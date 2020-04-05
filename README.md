@@ -21,20 +21,20 @@ unit_tests - 单元测试相关代码
 ### 主依赖
 ```
 $ python3 -m venv venv
-$ source env/bin/activate
-(env) $ pip3 install flask # 可以使用豆瓣的源例如：pip3 install flask -i https://pypi.doubanio.com/simple
-(env) $ pip3 install flask-restful
+$ source venv/bin/activate
+(venv) $ pip3 install flask # 可以使用豆瓣的源例如：pip3 install flask -i https://pypi.doubanio.com/simple
+(venv) $ pip3 install flask-restful
 ```
 
 
 
 ### 验证码识别依赖
 ```
-(env) $ pip3 install torch -i https://pypi.doubanio.com/simple
-(env) $ pip3 install torchvision -i https://pypi.doubanio.com/simple
-(env) $ pip3 install captcha -i https://pypi.doubanio.com/simple
-(env) $ pip3 install matplotlib -i https://pypi.doubanio.com/simple
-(env) $ pip3 install alphabet -i https://pypi.doubanio.com/simple
+(venv) $ pip3 install torch -i https://pypi.doubanio.com/simple
+(venv) $ pip3 install torchvision -i https://pypi.doubanio.com/simple
+(venv) $ pip3 install captcha -i https://pypi.doubanio.com/simple
+(venv) $ pip3 install matplotlib -i https://pypi.doubanio.com/simple
+(venv) $ pip3 install alphabet -i https://pypi.doubanio.com/simple
 ```
 * 安装成功后发现报错：
 ```

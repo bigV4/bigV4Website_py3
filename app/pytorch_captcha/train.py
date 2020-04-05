@@ -50,6 +50,7 @@ def train():
                                   num_workers=0, shuffle=True, drop_last=True)
     cnn = CNN()
     if torch.cuda.is_available():
+        print("torch.cuda.is_available")
         cnn.cuda()
     if restor:
         cnn.load_state_dict(torch.load(model_path))
