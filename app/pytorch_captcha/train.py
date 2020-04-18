@@ -72,6 +72,7 @@ def train():
             img = Variable(img)
             target = Variable(target)
             if torch.cuda.is_available():
+                print("torch.cuda.is_available")
                 img = img.cuda()
                 target = target.cuda()
             output = cnn(img)
@@ -95,6 +96,7 @@ def train():
             img = Variable(img)
             target = Variable(target)
             if torch.cuda.is_available():
+                print("torch.cuda.is_available")
                 img = img.cuda()
                 target = target.cuda()
             output = cnn(img)

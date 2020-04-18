@@ -33,7 +33,7 @@
 </div>
 
 <div id="ajax_test" class="test-block">
-    <div id="block-ajax" name="block-ajax" class="block-title">ajax & fetch 测试</div>
+    <div id="block-ajax" name="block-ajax" class="block-title">ajax & fetch 测试 返回json</div>
     <div class="block-content">
         <div class="test-block-item">
             <button id="xhr_get">xhr get</button>
@@ -48,6 +48,25 @@
             <button id="fetch_post">fetch.post</button>
         </div>
         <pre id="ajax_result"></pre>
+    </div>
+</div>
+
+<div id="ajax_test" class="test-block">
+    <div id="block-ajax-text" name="block-ajax-text" class="block-title">ajax & fetch 测试 返回text</div>
+    <div class="block-content">
+        <div class="test-block-item">
+            <button id="xhr_get_text">xhr get</button>
+            <button id="xhr_post_text">xhr post</button>
+        </div>
+        <div class="test-block-item">
+            <button id="jquery_get_text">$.get</button>
+            <button id="jquery_post_text">$.post</button>
+        </div>
+        <div class="test-block-item">
+            <button id="fetch_get_text">fetch.get</button>
+            <button id="fetch_post_text">fetch.post</button>
+        </div>
+        <pre id="ajax_result_text"></pre>
     </div>
 </div>
 
@@ -189,7 +208,7 @@
             if (typeof status === "string") {
                 text = status;
             } else {
-                text = "<spen>[t] status [s] [m]</spen><br>[r]"
+                text = "<spen>ajaxType: [t] <br>status: [s] <br>Method: [m]</spen><br>[r]"
                     .replace('[t]', ajaxType)
                     .replace('[s]', status)
                     .replace('[m]', this.method)
