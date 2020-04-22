@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>数字华容道</title>
+    <script type="text/javascript" src="/static/js/jquery-1.11.1.min.js"></script>
+    <style type="text/css">
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        #btns>button {
+            width: 100px;
+            height: 30px;
+            border: none;
+            background: #0082df;
+            color: white;
+        }
+
+        #content {
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        #grid {
+            border: 1px solid #0082df;
+            width: 300px;
+            margin: 20px auto;
+            height: 300px;
+        }
+
+        #grid>div {
+            float: left;
+            width: 33%;
+            background: gray;
+            height: 33%;
+            margin-bottom: 1px;
+            margin-right: 1px;
+        }
+
+        .num {
+            background: #0082df;
+            width: 99%;
+            height: 99%;
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            line-height: 99px;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="/">返回首页</a><br>
+    <h1 >数字华容道</h1>
+
+    <div id="content">
+        <h1>步数<span id="count">0</span></h1>
+        <div id="grid">
+
+        </div>
+        <div id="btns">
+            <button>重新开始</button>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var arr = [];
+        var count = 0;
+        $('button').click(function () {
+            count = 0;
+            $('#count').html(count);
+            arr = [];
+            load();
+        });
+        function load() {
+            for (var i = 0; arr.length < 8; i++) {
+                var num = Math.ceil(Math.random() * 8)
+                if (arr.indexOf(num) == -1) {
+                    arr.push(num)
+                }
+            }
+            arr.push("");
+            rander();
+        }
+        load();
+        function rander() {
+            var html = "";
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i] == "") {
+                    html += "<div></div>";
+                } else {
+                    html += "<div><div οnclick='toMove(this)' class='num'>" + arr[i] + "</div></div>";
+                }
+
+            }
+            $('#grid').html(html);
+        }
+
+        function toMove(obj) {
+            var value = Number($(obj).text());
+            var index = arr.indexOf(value);
+
+            if (arr[index + 3] == "") {
+                arr[index] = arr[index + 3];
+                arr[index + 3] = value;
+                count++;
+                rander();
+            }
+            if (arr[index - 3] == "") {
+                arr[index] = arr[index - 3];
+                arr[index - 3] = value;
+                count++;
+                rander();
+            }
+            if (arr[index + 1] == "") {
+                arr[index] = arr[index + 1];
+                arr[index + 1] = value;
+                count++;
+                rander();
+            }
+            if (arr[index - 1] == "") {
+                arr[index] = arr[index - 1];
+                arr[index - 1] = value;
+                count++;
+                rander();
+            }
+            $('#count').html(count);
+            if (endGame()) {
+                alert("成功");
+            }
+        };
+        function endGame() {
+            arr[arr.indexOf("")] = 9;
+            for (var i = 0; i < arr.length - 2; i++) {
+                if (arr[arr.length - 1] == 9) {
+                    if (arr[i] > arr[i + 1]) {
+                        arr[arr.indexOf(9)] = "";
+                        return false;
+                    }
+                } else {
+                    arr[arr.indexOf(9)] = "";
+                    return false;
+                }
+            }
+            arr[arr.indexOf(9)] = "";
+            return true;
+        }
+    </script>
+</body>
+
+</html>

@@ -76,6 +76,84 @@
         }
     </style>
 
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#container>.row>.unit>img").each(function () {
+                $(this).click(function (event) {
+                    event.stopPropagation();
+                    $(".unit").removeClass("move");
+                    $(this).parent(".unit").addClass("move");
+                })
+            });
+            move(".move", "#tips");
+            function move(className, idName) {
+                /* 提示信息 */
+                function tipsAlert(idName) {
+                    $(idName).animate({ top: "0", opacity: "1" }, 500);
+                    setTimeout(function () {
+                        $(idName).animate({ top: "-50px", opacity: "0" }, 800);
+                    }, 1000)
+                }
+                /* 上下左右按键移动 */
+                $(document).keydown(function (e) {
+                    var code = e.keyCode;
+                    if (code > 40 || code < 37) {
+                        return false;
+                    }
+                    var prev = $(className)[0].previousElementSibling;//选中元素前置位元素是否存在,以此判断元素是否还可以左右移动
+                    var next = $(className)[0].nextElementSibling;//选中元素后置位元素是否存在,以此判断元素是否还可以左右移动
+                    var paprev = $(className).parent()[0].previousElementSibling;//选中元素父级前置位元素是否存在，以此判断元素是否还可以上下移动
+                    var panext = $(className).parent()[0].nextElementSibling;//选中元素父级后置位元素是否存在，以此判断元素是否还可以上下移动
+                    var index = $(className).index();//根据选中元素的索引值，来确定上下移动时对换的位置
+                    var movenDiv = $(className).next()[0];//以此确定上下对换元素添加方式
+                    var movepDiv = $(className).prev()[0];//以此确定上下对换元素添加方式
+                    switch (code) {
+                        case 37://左
+                            if (prev) {
+                                $(className).insertBefore(prev);
+                            } else {
+                                tipsAlert(idName);
+                            }
+                            break;
+                        case 38://上
+                            if (paprev) {
+                                var exchangeTop = $(paprev).children()[index];
+                                $(className).insertBefore(exchangeTop);
+                                if (movenDiv) {
+                                    $(exchangeTop).insertBefore(movenDiv);
+                                } else {
+                                    $(exchangeTop).insertAfter(movepDiv)
+                                }
+
+                            } else {
+                                tipsAlert(idName);
+                            }
+                            break;
+                        case 39://右
+                            if (next) {
+                                $(className).insertAfter(next);
+                            } else {
+                                tipsAlert(idName)
+                            }
+                            break;
+                        case 40://下
+                            if (panext) {
+                                var exchangeBottom = $(panext).children()[index];
+                                $(className).insertBefore(exchangeBottom);
+                                if (movenDiv) {
+                                    $(exchangeBottom).insertBefore(movenDiv);
+                                } else {
+                                    $(exchangeBottom).insertAfter(movepDiv)
+                                }
+                            } else {
+                                tipsAlert(idName);
+                            }
+                            break;
+
+                    }
+                });
+        }
+    </script>
 </head>
 
 <body>
