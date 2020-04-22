@@ -33,14 +33,6 @@
 		    $("button").mouseout(function(){ 
 		 		$(this).css("background-color","#C4E3F3");
             });
-            //悬停到按钮上
-		    $("#bf").mouseover(function(){
-		 		$("#bf").text("f");
-		    });
-            //悬停离开按钮
-		    $("#bf").click(function(){ 
-		 		$("#bf").text("12");
-		    });
         });
 
     </script>
@@ -50,14 +42,32 @@
 </head>
 <body>
     <a href="/">返回首页</a><br>
-    <div style="width:300px; height:250px; margin:auto">
-        <div style="text-align:center">张三的骰子<input type="text" id="zhangsan"></div><br>
-        <div style="text-align:center">李四的骰子<input type="text" id ="lisi"></div><br>
-        <div style="text-align:center;">获胜者<input style="width:198px;"type="text" id="winner"></div><br>
-        <button style="margin-left: 30px" id="playgame_button">掷筛子</button>
-        <button style="margin-right: 30px" id="endgame_button">不玩了</button>
-    </div><br>
-    <div style="width:300px; height:600px; margin:auto; text-align:center;">
+
+    <div class="test-block">
+        <div class="block-title">掷骰子游戏</div>
+        <div class="block-content">
+            <div class="test-block-item">
+                <label>张三的骰子：</label>
+                <input type="text" id="zhangsan">
+            </div>
+            <div class="test-block-item">
+                <label>李四的骰子：</label>
+                <input type="text" id ="lisi">
+            </div>
+            <div class="test-block-item">
+                <label>获胜者：</label>
+                <input style="width:198px;"type="text" id="winner">
+            </div>
+            <div class="test-block-item">
+                <button id="playgame_button">掷筛子</button>
+                <button id="endgame_button">不玩了</button>
+            </div>
+        </div>
+    </div>
+    
+
+    <br>
+    <div style="width:400px; height:400px; margin:auto; text-align:center;">
         <button id="bf"></button><button id="bf"></button><button id="bf"></button><button id="bf"></button><button id="bf"></button>
         <button id="bf"></button><button id="bf"></button><button id="bf"></button><button id="bf"></button><button id="bf"></button>
         <button id="bf"></button><button id="bf"></button><button id="bf"></button><button id="bf"></button><button id="bf"></button>

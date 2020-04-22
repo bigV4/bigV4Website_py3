@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>拼图小游戏</title>
+    <script type="text/javascript" src="/static/js/jquery-1.11.1.min.js"></script>
+    <style>
+        html,
+        body {
+            background-color: #222;
+        }
+
+        #box-div {
+            position: relative;
+            width: 508px;
+            height: 631px;
+            margin: 0 auto;
+        }
+
+        #container {
+            width: 508px;
+            height: 631px;
+            margin: 0 auto;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            border: 1px solid #d5e0e6;
+        }
+
+        #container>.row {
+            display: -webkit-box;
+            white-space: nowrap;
+        }
+
+        #container>.row>.unit {
+            width: 169px;
+            height: 209px;
+            display: inline-block\9;
+            /*兼容IE9/10*/
+            vertical-align: top\9;
+            /*兼容IE9/10*/
+            box-sizing: border-box;
+            border: 1px solid rgba(7, 157, 239, 0);
+        }
+
+        #container>.row>.unit.move {
+            border: 1px solid rgba(7, 157, 239, 1);
+        }
+
+        #tips {
+            width: 200px;
+            height: 50px;
+            background: rgb(152, 206, 50);
+            position: absolute;
+            z-index: 5;
+            top: -50px;
+            left: calc(50% - 100px);
+            opacity: 0;
+        }
+
+        #tips>p {
+            margin: 0;
+            line-height: 50px;
+            text-align: center;
+            color: white;
+        }
+
+        .directions {
+            width: 50%;
+            margin: 0 auto;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+            background-color: #a7cbf0;
+        }
+    </style>
+
+</head>
+
+<body>
+    <a href="/">返回首页</a><br>
+
+    <div id="box-div">
+        <!--走不通时的提示！-->
+        <div id="tips">
+            <p>\(╯-╰)/ 哎呦，走不通啦!</p>
+        </div>
+        <div id="container">
+            <div class="row">
+                <div class="unit"><img src="/static/img/weini_part_01.png" alt="photo1" /></div>
+                <div class="unit"><img src="/static/img/weini_part_02.gif" alt="photo2" /></div>
+                <div class="unit"><img src="/static/img/weini_part_03.gif" alt="photo3" /></div>
+            </div>
+            <div class="row">
+                <div class="unit"><img src="/static/img/weini_part_04.gif" alt="photo4" /></div>
+                <div class="unit"><img src="/static/img/weini_part_05.gif" alt="photo5" /></div>
+                <div class="unit"><img src="/static/img/weini_part_06.gif" alt="photo6" /></div>
+            </div>
+            <div class="row">
+                <div class="unit"><img src="/static/img/weini_part_07.gif" alt="photo7" /></div>
+                <div class="unit"><img src="/static/img/weini_part_08.gif" alt="photo8" /></div>
+                <div class="unit"><img src="/static/img/weini_part_09.gif" alt="photo9" /></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

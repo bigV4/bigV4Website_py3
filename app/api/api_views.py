@@ -91,9 +91,9 @@ def api_captcha():
         except Exception as e:
             print(e)
             return '''<!DOCTYPE html>
-            <html lang="en"><head><meta charset="UTF-8"><title>验证码识别</title></head>
-                <body><div><a href="/">返回首页</a><br><h3>上传验证码图片，进行识别</h3>
-                        <i>{}</i>
+            <html lang="en"><head><meta charset="UTF-8"><title>验证码识别</title><link rel="stylesheet" href="/static/app/app.css"></head>
+                <body><a href="/">返回首页</a><div class="test-block"><br><h3>上传验证码图片，进行识别</h3>
+                        <pre class="notes">{}</pre>
                         <form method="post" action="/captcha/" enctype="multipart/form-data">
                         <input type="file" size="30" name="file" style="margin-top:20px;"/><br>
                         <input type="submit" value="提交图片" class="button-new" style="margin-top:15px;"/>
@@ -103,8 +103,8 @@ def api_captcha():
             '''.format(str(e))
         if not (f and allowed_file(f.filename)):
             return '''<!DOCTYPE html>
-            <html lang="en"><head><meta charset="UTF-8"><title>验证码识别</title></head>
-                <body><div><a href="/">返回首页</a><br><h3>上传验证码图片，进行识别</h3>
+            <html lang="en"><head><meta charset="UTF-8"><title>验证码识别</title><link rel="stylesheet" href="/static/app/app.css"></head>
+                <body><a href="/">返回首页</a><div class="test-block"><br><h3>上传验证码图片，进行识别</h3>
                         <i>Please check the type of image uploaded, only {}</i>
                         <form method="post" action="/captcha/" enctype="multipart/form-data">
                         <input type="file" size="30" name="file" style="margin-top:20px;"/><br>
@@ -117,8 +117,8 @@ def api_captcha():
         if isinstance(msg,str):
             return msg
         return '''<!DOCTYPE html>
-        <html lang="en"><head><meta charset="UTF-8"><title>验证码识别</title></head>
-        <body><div><a href="/">返回首页</a><br><h3>上传验证码图片，进行识别</h3>
+        <html lang="en"><head><meta charset="UTF-8"><title>验证码识别</title><link rel="stylesheet" href="/static/app/app.css"></head>
+        <body><a href="/">返回首页</a><div class="test-block"><br><h3>上传验证码图片，进行识别</h3>
                 <form method="post" action="/captcha/" enctype="multipart/form-data">
                 <input type="file" size="30" name="file" style="margin-top:20px;"/><br>
                 <input type="submit" value="提交图片" class="button-new" style="margin-top:15px;"/>
@@ -139,8 +139,8 @@ def api_captcha():
                    imgW1 = msg["AfterSize"][1])
 
     return '''<!DOCTYPE html>
-        <html lang="en"><head><meta charset="UTF-8"><title>验证码识别</title></head>
-            <body><div><a href="/">返回首页</a><br><h3>上传验证码图片，进行识别</h3>
+        <html lang="en"><head><meta charset="UTF-8"><title>验证码识别</title><link rel="stylesheet" href="/static/app/app.css"></head>
+            <body><a href="/">返回首页</a><div class="test-block"><br><h3>上传验证码图片，进行识别</h3>
                     <form method="post" action="/captcha/" enctype="multipart/form-data">
                     <input type="file" size="30" name="file" style="margin-top:20px;"/><br>
                     <input type="submit" value="提交图片" class="button-new" style="margin-top:15px;"/>
