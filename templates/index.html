@@ -177,12 +177,16 @@
             for (var i = 0; i < size; i++) {
                 var pos = Math.round(Math.random() * (this.baseString.length - 1));
                 str += this.baseString.charAt(pos);
+                //console.log("postData i",i)
+                //console.log("postData pos",pos)
+                //console.log("postData str",str)
             }
             return str;
         },
 
         requestData: function () {
             var data = this.method === "POST" ? {'data': this.postData(50)} : undefined;
+            console.log("requestData data",data)
             return JSON.stringify(data);
         },
 
@@ -301,9 +305,12 @@
     window.onload = function (ev) {
         $("#ajax_test").find("button").click(function (ev) {
             var $this = $(this);
-            var info = $this.attr('id').split("_");
+            //var info = $this.attr('id').split("_");
+            var info = this.id.split("_");
+            console.log(info)
             ajax.method = info[1].toUpperCase();
             ajax.url = "/test_ajax_" + ajax.method.toLowerCase() + "/";
+            //console.log(info[0])
             ajax[info[0]]();
         });
     }
