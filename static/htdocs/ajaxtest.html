@@ -9,6 +9,7 @@
     <!--为了让浏览器找到您的图标，正确的方法是添加一个 Link 标签到 HTML 当中-->
 </head>
 <body>
+<a href="/">返回首页</a><a href="/">返回列表</a><br>
 <div class="page-title">Mobile Test Remote Server</div>
 <div id="hasCoreJs"></div>
 
@@ -26,14 +27,12 @@
     <div class="block-title">其他链接</div>
     <div class="block-content">
         <pre class="notes">【查看兼容测试结果】仅显示与当前服务器关联的测试记录</pre>
-        <a href="/test_result/">查看兼容测试结果</a>
-        <a href="/about/">关于页面</a>
-        <a href="/list/">其他页面列表</a>
     </div>
 </div>
 
 <div id="ajax_test" class="test-block">
     <div id="block-ajax" name="block-ajax" class="block-title">ajax & fetch 测试 XMLHttpRequest.responseType为空</div>
+    responseType 为空字符串时，采用默认类型 DOMString，与设置为 text 相同。
     <div class="block-content">
         <div class="test-block-item">
             <button id="xhr_get">xhr get</button>
@@ -51,73 +50,123 @@
     </div>
 </div>
 
-
-<div id="form_test_div" class="test-block">
-    <div id="block-form" name="block-form" class="block-title">form 表单测试</div>
+<div id="ajax_test" class="test-block">
+    <div id="block-ajax" name="block-ajax" class="block-title">ajax & fetch 测试 XMLHttpRequest.responseType为text[未完成]</div>
+    response 是一个以 DOMString 对象表示的文本。
     <div class="block-content">
-        <form id="test_form" action="/test_form/">
-            <div>
-                <label>input text:</label>
-                <input id="form_input" type="text" name="form_input"/>
-            </div>
-            <div>
-                <label>input password:</label>
-                <input id="form_input_pwd" type="password" name="form_input_pwd"/>
-            </div>
-            <div>
-                <label>input number:</label>
-                <input id="form_input_no" type="number" name="form_input_no"/>
-            </div>
-            <div>
-                <label>textArea:</label>
-                <textarea id="form_textarea" name="form_textarea" rows="2"></textarea>
-            </div>
-            <div>
-                <label>method:</label>
-                get<input type="radio" name="_method" value="get"
-                          onclick="document.getElementById('test_form').method = 'get'"/>
-                post<input type="radio" name="_method" value="post"
-                           onclick="document.getElementById('test_form').method = 'post'"/>
-            </div>
-            <div>
-                <label>checkBox:</label>
-                checkbox1<input type="checkbox" name="test_checkbox" value="ck1"/>
-                checkbox2<input type="checkbox" name="test_checkbox" value="ck2"/>
-            </div>
-            <div>
-                <label>select:</label>
-                <select name="test_select">
-                    <option>s1</option>
-                    <option>s2</option>
-                    <option>s3</option>
-                    <option>s4</option>
-                    <option>s5</option>
-                </select>
-            </div>
-            <div class="div-flex">
-                <input type="submit" name="sub1" value="input submit1 &lt;input type='submit' name='sub1'&gt;"/>
-                <input type="submit" name="sub1" value="input submit2 &lt;input type='submit' name='sub2'&gt;"/>
-                <button type="submit">button submit &lt;button type='submit'&gt;</button>
-                <button type="button" onclick="formSubmit()">JS submit (JS form.submit())</button>
-            </div>
-        </form>
+        <div class="test-block-item">
+            <button id="xhr_get">xhr get</button>
+            <button id="xhr_post">xhr post</button>
+        </div>
+        <div class="test-block-item">
+            <button id="jquery_get">$.get</button>
+            <button id="jquery_post">$.post</button>
+        </div>
+        <div class="test-block-item">
+            <button id="fetch_get">fetch.get</button>
+            <button id="fetch_post">fetch.post</button>
+        </div>
+        <pre id="ajax_result"></pre>
     </div>
 </div>
 
-<div class="test-block">
-    <div name="block-media" id="block-media" class="block-title">多媒体加载测试</div>
+<div id="ajax_test" class="test-block">
+    <div id="block-ajax-text" name="block-ajax-text" class="block-title">ajax & fetch 测试 XMLHttpRequest.responseType为json[未完成]</div>
+    response 是一个 JavaScript 对象。这个对象是通过将接收到的数据类型视为 JSON 解析得到的。
     <div class="block-content">
-        <pre class="notes">加载多媒体文件</pre>
-        <label class="notes">MP3</label>
-        <audio controls="controls">
-            <source src="/static/audio/song.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
-        <label class="notes">MP4</label>
-        <video controls="controls" autoplay="autoplay" style="width: fit-content;">
-            <source src="/static/video/movie.mp4" type="video/mp4"/>
-            Your browser does not support the video element.
-        </video>
+        <div class="test-block-item">
+            <button id="xhr_get_text">xhr get</button>
+            <button id="xhr_post_text">xhr post</button>
+        </div>
+        <div class="test-block-item">
+            <button id="jquery_get_text">$.get</button>
+            <button id="jquery_post_text">$.post</button>
+        </div>
+        <div class="test-block-item">
+            <button id="fetch_get_text">fetch.get</button>
+            <button id="fetch_post_text">fetch.post</button>
+        </div>
+        <pre id="ajax_result_text"></pre>
+    </div>
+</div>
+
+<div id="ajax_test" class="test-block">
+    <div id="block-ajax-text" name="block-ajax-text" class="block-title">ajax & fetch 测试 XMLHttpRequest.responseType为ms-stream[未完成]</div>
+    response 是下载流的一部分；此响应类型仅允许下载请求，并且仅受 Internet Explorer 支持。
+    <div class="block-content">
+        <div class="test-block-item">
+            <button id="xhr_get_text">xhr get</button>
+            <button id="xhr_post_text">xhr post</button>
+        </div>
+        <div class="test-block-item">
+            <button id="jquery_get_text">$.get</button>
+            <button id="jquery_post_text">$.post</button>
+        </div>
+        <div class="test-block-item">
+            <button id="fetch_get_text">fetch.get</button>
+            <button id="fetch_post_text">fetch.post</button>
+        </div>
+        <pre id="ajax_result_text"></pre>
+    </div>
+</div>
+
+<div id="ajax_test" class="test-block">
+    <div id="block-ajax-text" name="block-ajax-text" class="block-title">ajax & fetch 测试 XMLHttpRequest.responseType为document[未完成]</div>
+    response 是一个 HTML Document 或 XML XMLDocument，这取决于接收到的数据的 MIME 类型。请参阅 XMLHttpRequest 中的 HTML 以了解使用 XHR 获取 HTML 内容的更多信息。
+    <div class="block-content">
+        <div class="test-block-item">
+            <button id="xhr_get_text">xhr get</button>
+            <button id="xhr_post_text">xhr post</button>
+        </div>
+        <div class="test-block-item">
+            <button id="jquery_get_text">$.get</button>
+            <button id="jquery_post_text">$.post</button>
+        </div>
+        <div class="test-block-item">
+            <button id="fetch_get_text">fetch.get</button>
+            <button id="fetch_post_text">fetch.post</button>
+        </div>
+        <pre id="ajax_result_text"></pre>
+    </div>
+</div>
+
+<div id="ajax_test" class="test-block">
+    <div id="block-ajax-text" name="block-ajax-text" class="block-title">ajax & fetch 测试 XMLHttpRequest.responseType为blob[未完成]</div>
+    response 是一个包含二进制数据的 Blob 对象 。
+    <div class="block-content">
+        <div class="test-block-item">
+            <button id="xhr_get_text">xhr get</button>
+            <button id="xhr_post_text">xhr post</button>
+        </div>
+        <div class="test-block-item">
+            <button id="jquery_get_text">$.get</button>
+            <button id="jquery_post_text">$.post</button>
+        </div>
+        <div class="test-block-item">
+            <button id="fetch_get_text">fetch.get</button>
+            <button id="fetch_post_text">fetch.post</button>
+        </div>
+        <pre id="ajax_result_text"></pre>
+    </div>
+</div>
+
+<div id="ajax_test" class="test-block">
+    <div id="block-ajax-text" name="block-ajax-text" class="block-title">ajax & fetch 测试 XMLHttpRequest.responseType为arraybuffer[未完成]</div>
+    response 是下载流的一部分；此响应类型仅允许下载请求，并且仅受 Internet Explorer 支持。
+    <div class="block-content">
+        <div class="test-block-item">
+            <button id="xhr_get_text">xhr get</button>
+            <button id="xhr_post_text">xhr post</button>
+        </div>
+        <div class="test-block-item">
+            <button id="jquery_get_text">$.get</button>
+            <button id="jquery_post_text">$.post</button>
+        </div>
+        <div class="test-block-item">
+            <button id="fetch_get_text">fetch.get</button>
+            <button id="fetch_post_text">fetch.post</button>
+        </div>
+        <pre id="ajax_result_text"></pre>
     </div>
 </div>
 
@@ -130,14 +179,6 @@
         <div class="page-block" page-src="/world_languages/">
 
         </div>
-    </div>
-</div>
-
-<div class="test-block">
-    <div id="block-iframe_normal" name="block-iframe_normal" class="block-title">iframe 测试</div>
-    <div class="block-content">
-        <pre class="notes">iframe中页面内容为一个多国语言测试页面</pre>
-        <iFrame id="test_iframe" name="test_iframe" height="200px" src="/world_languages/"></iFrame>
     </div>
 </div>
 
