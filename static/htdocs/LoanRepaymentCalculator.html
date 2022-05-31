@@ -1,0 +1,232 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>等额本息还款法计算器</title>
+<script language="javascript">
+function estateBorrow(original,active,timeSpan){
+	var monthBack=original*active*0.001*Math.pow((1+parseFloat(active*0.001)),parseFloat(timeSpan))/(Math.pow((1+parseFloat(active*0.001)),parseFloat(timeSpan))-1);
+        var totalBack=monthBack*timeSpan;
+        var totalInterest=totalBack-original;
+        var monthInterest=totalInterest/timeSpan;
+	totalInterest=(Math.round(totalInterest*100))/100;//存款利息：取两位小数
+	monthInterest=(Math.round(monthInterest*10000))/10000;//存款利息：取两位小数	
+	monthBack=(Math.round(monthBack*10000))/10000;//存款利息：取两位小数
+        totalBack=(Math.round(totalBack*100))/100;//本息合计：取两位小数
+        var objArray=new Array();
+        objArray[0]=monthBack;
+        objArray[1]=totalBack;
+        objArray[2]=monthInterest;
+        objArray[3]=totalInterest;        
+        return objArray;
+}
+function estateBorrow1(original,active,timeSpan){
+	active = active*0.001;
+	var monthOriginal = original / timeSpan;
+	var timeSpan1=parseInt(timeSpan);
+	var interestTotal=0;	
+	var backMonth = "";
+	for(i=1;i<timeSpan1+1;i++){
+		interestM=(original-original*(i-1)/timeSpan1)*active;
+		backMonth += i + "月:" + (monthOriginal + interestM).toFixed(2) + "元\n";
+		interestTotal=parseFloat(interestTotal)+parseFloat(interestM);			
+	}
+	var monthBack=original*active*Math.pow((1+parseFloat(active)),parseFloat(timeSpan))/(Math.pow((1+parseFloat(active)),parseFloat(timeSpan))-1);
+
+	interestTotal=(Math.round(interestTotal*100))/100;//贷款利息：取两位小数
+        var moneyTotal=parseFloat(original)+parseFloat(interestTotal);
+        var objArray=new Array();
+        objArray[0]=interestTotal;
+        objArray[1]=moneyTotal;
+		objArray[2] = backMonth;
+        return objArray;
+}
+function checkData(objArray){
+	var textnow;
+	var rst="true";
+	for(i=0;i<objArray.length;i++){
+	        textnow=eval(objArray[i])
+		if(textnow.value==""){
+			rst="false";
+			alert("请输入完整！");
+			textnow.focus()	;
+			textnow.select();
+			break;
+		}	
+	}
+	return rst	
+
+}
+function isInteger(objArray){
+	var textnow;
+	var rst="true";
+	for(i=0;i<objArray.length;i++){
+	        textnow=eval(objArray[i]);
+		if(isNaN(textnow.value)){
+			rst="false";
+			alert("请输入数字！");
+			textnow.focus();
+			textnow.select();
+			break;
+		}	
+	}
+	return rst	
+}
+ //计算函数，返回计算结果并显示在相应的结果项上。
+function sendrate2(){
+        //设定一个数组，把要检验的字段对应的输入框的字符串表示赋给数组
+        var objArray=new Array();
+        objArray[0]=document.estateborrow.original;
+        objArray[1]=document.estateborrow.active;
+        objArray[2]=document.estateborrow.yearSpan;
+
+        var rst=checkData(objArray);//调用函数检验是否有空字符
+        if(rst=="false")
+                {return;}
+        rst=isInteger(objArray);//调用函数检验是否为整数
+        if(rst=="false")
+                {return;}
+        //从表单中取值
+        var original=document.estateborrow.original.value;  //贷款总额
+        var active=document.estateborrow.active.value;      //贷款利息
+        var yearSpan=document.estateborrow.yearSpan.value;  //年份
+
+        //alert(yearSpan);
+                var timeSpan=parseFloat(yearSpan)*12;
+                active=active*10/12;
+        //计算贷款利息、本息合计
+        var result=new Array();
+
+        if(document.estateborrow.inputSelect.value=="等额本息还款"){
+                result=estateBorrow(original,active,timeSpan);//贷款利息、利息税额、实得利息、本息合计封在返回的数组中
+                //将贷款利息本息合计显示
+                document.estateborrow.monthBack.value=result[0];        //显示贷款利息
+                document.estateborrow.totalBack.value=result[1];              //显示本息合计
+                //document.estateborrow.monthInterest.value=result[2];        //显示贷款利息
+                document.estateborrow.totalInterest.value=result[3];              //显示本息合计
+				document.getElementById("tr_debj").style.display='none';
+				document.getElementById("tr_debx").style.display='';
+        }
+        else{
+                var result=estateBorrow1(original,active,timeSpan);
+                document.estateborrow.totalInterest.value=result[0]; //显示贷款利息
+                document.estateborrow.totalBack.value=result[1]; //显示本息合计
+                document.estateborrow.monthBackDEBJ.value=result[2];//显示每月还款额
+				document.getElementById("tr_debx").style.display='none';
+				document.getElementById("tr_debj").style.display='';
+                //document.estateborrow.monthInterest.value="";
+        }
+}
+</script>
+<style type="text/css">
+td{ height:25px; padding-left:5px;}
+input {color:#000; }
+#readolny input{ background:#F7F7F7;border:1px solid #7F9DB9;height:16px;}
+    .style1
+    {
+        font-size: medium;
+    }
+</style>		
+</head>
+<body id="contractPage">
+	<script type="text/javascript">
+//<!--
+var _S_JV_="webbug_meta_ref_mod_noiframe_async_:8.37a";var cp_rf="";var cp_rf_d="";var _S_DPID_="-9999-0-0-1";
+var _S_DOMAINROOT="ganji.com";var _S_PW_=window;var _S_PWD_=_S_PW_.document;var _S_BN_=navigator;var _S_NAN_=_S_BN_.appName;var _S_NAV_=_S_BN_.appVersion;var _S_PREF_=_S_PWD_.referrer;var _SP_MPID_="";
+var _S_PID_="";var _S_UNA_="UNIPROU";var _S_UID_="nick";var _S_SID_="Apache";var _S_GID_="SINAGLOBAL";var _S_IFW=700;var _S_IFH=600;var _S_SID_V="";var _S_GID_V="";try{if (_S_ET>=0){_S_ET=_S_ET;}else{var _S_ET=0;}}catch(e){var _S_ET=0;}
+function _S_gUCk(ckName){if (("undefined"==ckName)||(""==ckName))return ""; var _S_PWDC_=_S_PWD_.cookie;var start=_S_PWDC_.indexOf(ckName+"=");if (-1==start){return "";} start=_S_PWDC_.indexOf("=", start)+1;var end=_S_PWDC_.indexOf(";", start);if (0 >=end){end=_S_PWDC_.length;} ckValue=_S_PWDC_.substring(start, end);return ckValue;}
+function _S_sUCk(ckName, ckValue, ckdays){if (ckValue !=null){if (("undefined"==ckdays)||(null==ckdays)){_S_PWD_.cookie=ckName + "=" + ckValue + "; domain="+_S_DOMAINROOT+"; path=/" ;} else{var now=new Date();var time=now.getTime();time=time + 86400000 * ckdays;now.setTime(time);time=now.getTime();_S_PWD_.cookie=ckName + "=" + ckValue + "; domain="+_S_DOMAINROOT+"; expires=" +now.toUTCString()+ "; path=/";} }}
+function _S_gMeta(MName){pMeta=_S_PWD_.getElementsByName(MName);if(pMeta.length>0){return pMeta[0].content;} else{return "";}}
+function _S_gCid(){try {metaTxt=_S_gMeta("publishid");if(""!=metaTxt) {pbidList=metaTxt.split(","); if(pbidList.length>0) {if(pbidList.length>=3){_S_DPID_="-9999-0-"+pbidList[1]+"-"+pbidList[2];}return pbidList[0];}} else{return "0";}} catch(e){return "0";}}
+function _S_sSID(){_S_p2Bcn("",cp_rf_d);} function _S_sSIDV(_s_sidv){if(""!=_s_sidv){_S_sUCk(_S_SID_,_s_sidv);}}
+function _S_gsSID(){if(""!=_S_SID_){var sid=_S_gUCk(_S_SID_);if(""==sid){_S_sSID();}_S_SID_V=sid;return sid;}else{return "";}}
+function _S_sGID(_s_gidv){if(""!=_s_gidv){_S_sUCk(_S_GID_,_s_gidv,3650);}}
+function _S_gsGID(){if(""!=_S_GID_){var gid=_S_gUCk(_S_GID_);if(""==gid){var sid=_S_gsSID();if(""!=sid){gid=sid;_S_sGID(gid);}}_S_GID_V=gid;return gid;}else{return "";}}
+function _S_p2Bcn(strQuest,wb_url){var _sl_scsd=_S_PWD_.getElementById("sudsclickstreamdiv");if(null!=_sl_scsd){_sl_scsd.innerHTML="<img  width=0 height=0 src='"+wb_url+"?"+strQuest+"gUid_"+Math.random()+"' border='0' alt='' />";}} 
+function _S_gConType(){var contype="";try{_S_PWD_.body.addBehavior("#default#clientCaps");contype=_S_PWD_.body.connectionType;}catch(e){contype="unkown";} return contype;} 
+function _S_isHome(){var cul="";var isH="";try{cul=_S_PWD_.location.href;_S_PWD_.body.addBehavior("#default#homePage");isH=_S_PWD_.body.isHomePage(cul)?"Y":"N";}catch(e){isH="unkown";} return isH;}
+function _S_isExistsFreshMeta(){ var _s_head_=_S_PWD_.documentElement.innerHTML.substring(0,1024); var reg=new RegExp("<meta\\s*http-equiv\\s*=((\\s*refresh\\s*)|(\'refresh\')|(\"refresh\"))\s*content\s*=","ig"); return reg.test(_s_head_); }
+function _S_isIFrameSelf(){if(_S_PW_.top ==_S_PW_){return false;}else{try{if((_S_PW_.document.body.clientHeight>=_S_IFH)&&(_S_PW_.document.body.clientWidth>=_S_IFW)){return false;}else{return true;}}catch(e){return true;}}}
+function _S_gJVer(){var p,appsign,appver,jsver=1.0,isN6=0;if ('Microsoft Internet Explorer'==_S_NAN_){appsign='MSIE';p=_S_NAV_.indexOf(appsign);if (p>=0){appver=parseInt(_S_NAV_.substring(p+5));if (3<=appver){jsver=1.1; if (4<=appver) {jsver=1.3;}}}} else if (("Netscape"==_S_NAN_)||("Opera"==_S_NAN_)||("Mozilla"==_S_NAN_)){jsver=1.3; appsign='Netscape6';p=_S_NAV_.indexOf(appsign);if (p>=0) {jsver=1.5; } } return jsver;}
+function _S_gPageInfo(PageID,_sp_rfurl){var sid=_S_gsSID();var pid="pid:"+PageID;var currPath="";var st="st:0";var et="et:"+_S_ET;var hp="hp:"+_S_isHome();var lb="lb:1";var pgls="PGLS:"+_S_gMeta("stencil");var key="keys:"+_S_gMeta("keywords");return sid+"|"+pid+"|"+currPath+"|"+st+"|"+et+"|"+escape(_sp_rfurl)+"|"+hp+"|"+lb+"|"+pgls+"|"+key+"|*|";}
+function _S_gEnvInfo(){var now=new Date();var pct=0;var ckValue="sz:"+screen.width+"x"+screen.height+"||";ckValue=ckValue+"dp:"+screen.colorDepth+"||";ckValue=ckValue+"ac:"+_S_BN_.appCodeName+"||";ckValue=ckValue+"an:"+_S_NAN_+"||";ckValue=ckValue+"av:0||";ckValue=ckValue+"cpu:"+_S_BN_.cpuClass+"||"; ckValue=ckValue+"pf:"+_S_BN_.platform+"||";ckValue=ckValue+"jv:"+_S_gJVer()+"||";ckValue=ckValue+"ct:"+_S_gConType()+"||";ckValue=ckValue+"lg:"+_S_BN_.systemLanguage+"||";ckValue=ckValue+"tz:"+now.getTimezoneOffset()/60;return ckValue;}
+function _S_pSt(_sp_mpid){try {if (("undefined"==_sp_mpid)||(""==_sp_mpid)){_sp_mpid=_S_gCid()+_S_DPID_;} if((_S_isExistsFreshMeta())||(_S_isIFrameSelf())){return;}if(_S_ET>0){return;}_S_ET=_S_ET+1;_SP_MPID_=_sp_mpid;window.setTimeout("_S_gsSID()",500);window.setTimeout("_S_pBeacon()",2000);window.setTimeout("_S_rset()",60000);}catch(e){}}
+function _S_pBeacon(){try {var sudsid=_S_gsGID();var ckValue=_S_gEnvInfo();var unStr=_S_gUCk(_S_UNA_);var uidStr=_S_gUCk(_S_UID_);var envStr="UNIPROINFO="+ckValue+"||un:"+unStr+"||uid:"+uidStr+";";var refUrl=_S_PREF_;_S_PREF_=_S_PWD_.location.href;var cPageStr=_S_gPageInfo(_SP_MPID_,refUrl);var lbStr=sudsid+"|*|"+cPageStr;lbStr=envStr+"UNIPROPATH="+lbStr+";";_S_p2Bcn(lbStr,cp_rf);}catch(e){}}
+function _S_rset(){if(""==_S_gUCk(_S_GID_)){if(""==_S_GID_V){_S_GID_V=_S_SID_V;}_S_sGID(_S_GID_V);} if(""==_S_gUCk(_S_SID_)){_S_sSIDV(_S_SID_V);}}
+//-->
+</script>
+<script type="text/javascript">
+//<!--
+_S_pSt("");
+//-->
+</script>
+<div id="container">
+    <div id="wrapper">
+		<div id="content">
+			<div style="clear:both">&nbsp;<span class="style1">等额本息还款法计算器</span> </div>
+			<form name="estateborrow" action="counter-aa">
+				
+			
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" >
+        <tr><td width="55%" valign="top">
+			
+		
+			 		<table  border="0"  cellpadding="1" cellspacing="1" width="100%" bgcolor="#CCCCCC">
+			 			<tr bgcolor="#F7F7F7"><td colspan="2" ><strong>计算公式</strong></td></tr>
+					  	<tr bgcolor="#FFFFFF"><td width="50%" align="right">贷款种类：</td><td><select name="borrowtype" class="font12">
+							<option value="个人住房贷款">个人住房贷款</option>
+							<option value="个人旅游贷款">个人旅游贷款</option>
+							<option value="个人综合消费贷款">个人综合消费贷款</option>
+							<option value="个人短期信用贷款">个人短期信用贷款</option>
+							<option value="个人小额抵押贷款">个人小额抵押贷款</option>
+							<option value="个人汽车贷款">个人汽车贷款</option>
+							<option value="助学贷款">助学贷款</option>
+							<option value="个人留学贷款">个人留学贷款</option>
+							<option value="大额耐用消费品贷款">大额耐用消费品贷款</option>
+						  </select></td></tr>
+					  	<tr bgcolor="#FFFFFF"><td align="right">贷款总额：</td><td><input name="original" id="original" size="9" maxlength="16" class="ts_counter" type="text"> 元</td></tr>
+				      	<tr bgcolor="#FFFFFF"><td align="right">按揭年数：</td><td> <input name="yearSpan" size="6" maxlength="8" class="ts_counter" type="text">  年</td></tr>		
+					   	<tr bgcolor="#FFFFFF"><td align="right">还款方式：</td><td> <select name="inputSelect" class="font12">
+							<option value="等额本息还款">等额本息还款</option>
+							<option value="等额本金还款">等额本金还款</option>
+						  </select></td></tr>		
+					  	<tr bgcolor="#FFFFFF"><td align="right">贷款利率(年利率)：</td><td> <input name="active" size="8" maxlength="10" class="ts_counter" type="text"> %</td></tr> 
+					    <tr bgcolor="#FFFFFF"><td colspan="2" align="center"><input  onclick="javascript:sendrate2()"; type="button" value="开始计算" name="button1" ><input  onclick="javascript:document.estateborrow.reset()"; type="reset" value="重新计算" name="button2" ></td></tr> 			  
+					  
+					  </table>
+					
+				</td></tr>
+        <tr><td width="55%" valign="top">
+			
+		
+	
+				<table  border="0"  cellpadding="1" cellspacing="1" width="100%" bgcolor="#CCCCCC" id="readolny">
+					 	<tr bgcolor="#F7F7F7"><td  colspan="2"><b>计算结果</b></td></tr>
+					 	<tr id="tr_debx" bgcolor="#FFFFFF"><td align="center" height="28" width="50%"><div align="right">
+                            月均还款：</div></td><td width="50%"> <input readonly="readonly"    name="monthBack" size="8" maxlength="16" class="ts_counter" type="text"> 
+                                元 </td></tr>
+					  	<tr id="tr_debj" style="display:none" bgcolor="#FFFFFF"><td align="center" height="28" width="50%"><div align="right">
+                            月还金额：</div></td><td width="50%"> <textarea name="monthBackDEBJ" class="ts_counter" rows=5 cols=20> </textarea></td></tr>
+					  	<tr bgcolor="#FFFFFF"><td align="center" height="28" width="50%"> <div align="right">
+                            支付利息：</div></td><td width="50%"> <input readonly="readonly"    name="totalInterest" size="8" maxlength="16" class="ts_counter" type="text"> 
+                                元 </td> </tr>
+					 	<tr bgcolor="#FFFFFF"><td align="center" height="28" width="50%"><div align="right">
+                            还款总额：</div></td><td width="50%"> <input readonly="readonly"    name="totalBack" size="8" maxlength="16" class="ts_counter" type="text"> 
+                                元 </td></tr>
+				</table>
+			
+				</td></tr>
+        <tr><td width="55%" valign="top">
+			
+		
+			 		&nbsp;</td></tr></table>
+
+			</form>
+          
+			
+		</div>
+	</div>
+</div>
+</body>
+</html>
