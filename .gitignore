@@ -5,6 +5,9 @@
 *.sln
 *.config
 *.pyc
+.DS_Store 
+*.DS_Store 
+
 
 #过滤文件夹Debug,Release,obj,venv
 Debug/  
@@ -13,3 +16,5 @@ obj/
 venv/
 dataset/
 dists/
+
+
