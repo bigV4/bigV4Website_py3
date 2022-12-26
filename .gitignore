@@ -28,3 +28,12 @@ static/.DS_Store
 static/plugins/.DS_Store
 static/plugins/bootstrap/.DS_Store
 static/test/.DS_Store
+.DS_Store
+app/.DS_Store
+app/ifconfigme/.DS_Store
+app/pytorch_captcha/.DS_Store
+app/pytorch_captcha_recognition_master/.DS_Store
+static/.DS_Store
+static/plugins/.DS_Store
+static/plugins/bootstrap/.DS_Store
+static/test/.DS_Store
